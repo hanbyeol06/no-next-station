@@ -644,7 +644,7 @@
             issue(issues, "paths[" + indexes.join(",") + "].choiceLog[" + logIndex + "]", "선택 로그 객체가 없습니다.");
             return;
           }
-          var chosen = incidents[logIndex].choices[choiceIndexes[logIndex]];
+          var chosen = incidents[logIndex].choices[indexes[logIndex]];
           var priorLogs = session.choiceLog.slice(0, logIndex);
           var previousTrust = Math.min(profile.recordTrust.maximum, Math.max(profile.recordTrust.minimum,
             priorLogs.reduce(function (sum, item) { return sum + item.recordTrustDelta; }, content.pack.shift.startingRecordTrust)));
@@ -675,7 +675,7 @@
             issue(issues, "paths[" + indexes.join(",") + "].choiceLog[" + logIndex + "]", "벽시계 시각을 생성하면 안 됩니다.");
           }
         });
-        var allMatched = choiceIndexes.every(function (choiceIndex, incidentIndex) {
+        var allMatched = indexes.every(function (choiceIndex, incidentIndex) {
           return incidents[incidentIndex].choices[choiceIndex].judgement === "matched";
         });
         var perfectEcho = incidents.reduce(function (sum, incident) {
