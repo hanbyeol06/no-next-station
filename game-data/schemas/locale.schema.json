@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "locale.schema.json",
+  "title": "다음 역은 없습니다 · 문구 묶음",
+  "type": "object",
+  "required": ["schemaVersion", "localeId", "messages"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "localeId": { "type": "string", "minLength": 2 },
+    "messages": {
+      "type": "object",
+      "minProperties": 1,
+      "propertyNames": { "pattern": "^[a-zA-Z][a-zA-Z0-9._-]*$" },
+      "additionalProperties": { "type": "string", "minLength": 1 }
+    }
+  },
+  "additionalProperties": false
+}

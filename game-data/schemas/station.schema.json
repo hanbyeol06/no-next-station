@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "station.schema.json",
+  "title": "다음 역은 없습니다 · 역 데이터",
+  "type": "object",
+  "required": ["schemaVersion", "stationId", "routeId", "nameKey", "sceneTemplateId", "feedIds", "views", "feeds"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "stationId": { "type": "string", "pattern": "^STATION-[A-Z0-9-]+$" },
+    "routeId": { "type": "string", "pattern": "^ROUTE-[A-Z0-9-]+$" },
+    "nameKey": { "type": "string", "minLength": 1 },
+    "sceneTemplateId": { "type": "string", "pattern": "^SCENE-TEMPLATE-[A-Z0-9-]+$" },
+    "feedIds": { "type": "array", "minItems": 3, "uniqueItems": true, "items": { "type": "string", "pattern": "^FEED-[A-Z0-9-]+$" } },
+    "views": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "items": {
+        "type": "object",
+        "required": ["viewId", "labelKey"],
+        "properties": {
+          "viewId": { "type": "string", "pattern": "^VIEW-[A-Z0-9-]+$" },
+          "labelKey": { "type": "string", "minLength": 1 }
+        },
+        "additionalProperties": false
+      }
+    },
+    "feeds": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "required": ["feedId", "cameraId", "labelKey", "shortLabelKey", "captionKey", "sceneId", "assetId"],
+        "properties": {
+          "feedId": { "type": "string", "pattern": "^FEED-[A-Z0-9-]+$" },
+          "cameraId": { "type": "string", "pattern": "^C[0-9]{2}$" },
+          "labelKey": { "type": "string", "minLength": 1 },
+          "shortLabelKey": { "type": "string", "minLength": 1 },
+          "captionKey": { "type": "string", "minLength": 1 },
+          "sceneId": { "type": "string", "pattern": "^SCENE-[A-Z0-9-]+$" },
+          "assetId": { "type": "string", "pattern": "^ASSET-[A-Z0-9-]+$" }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

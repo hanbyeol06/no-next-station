@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "manifest.schema.json",
+  "title": "다음 역은 없습니다 · 콘텐츠 manifest",
+  "type": "object",
+  "required": ["schemaVersion", "manifestId", "defaultPackId", "packIds", "scriptFiles"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "manifestId": { "type": "string", "pattern": "^MANIFEST-[A-Z0-9-]+$" },
+    "defaultPackId": { "type": "string", "pattern": "^PACK-[A-Z0-9-]+$" },
+    "packIds": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string", "pattern": "^PACK-[A-Z0-9-]+$" } },
+    "scriptFiles": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string", "minLength": 1 } }
+  },
+  "additionalProperties": false
+}

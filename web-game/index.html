@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b100f">
+  <meta name="description" content="CCTV와 운행 기록을 대조해 다섯 번의 야간 호출을 처리하는 짧은 공포 게임.">
+  <title>다음 역은 없습니다 · 야간 근무</title>
+  <link rel="stylesheet" href="styles/tokens.css">
+  <link rel="stylesheet" href="styles/layout.css">
+  <link rel="stylesheet" href="styles/components.css">
+</head>
+<body>
+  <a class="skip-link" href="#mainContent">본문으로 건너뛰기</a>
+  <header class="app-header">
+    <div class="brand-block">
+      <span class="brand-mark" aria-hidden="true">04</span>
+      <div>
+        <p class="brand-eyebrow">NIGHT CONTROL / SHIFT 01</p>
+        <p id="brandTitle" class="brand-title">다음 역은 없습니다</p>
+      </div>
+    </div>
+    <div class="header-controls" aria-label="화면 설정">
+      <button id="soundToggle" class="utility-button" type="button" aria-pressed="false">음향 꺼짐</button>
+      <button id="motionToggle" class="utility-button" type="button" aria-pressed="false">움직임 줄이기</button>
+    </div>
+  </header>
+
+  <main id="mainContent" class="app-main">
+    <section id="fatalError" class="fatal-error" aria-labelledby="fatalErrorTitle" hidden>
+      <h1 id="fatalErrorTitle">게임 데이터를 불러오지 못했습니다</h1>
+      <p id="fatalErrorCopy"></p>
+      <p>콘텐츠 파일 경로와 manifest 등록을 확인해 주세요.</p>
+    </section>
+
+    <section id="welcomePanel" class="welcome-panel" aria-labelledby="welcomeTitle">
+      <div class="welcome-copy">
+        <p class="eyebrow">04역 · 야간 관제실 · 00:05</p>
+        <h1 id="welcomeTitle">다음 역은 없습니다</h1>
+        <p id="welcomeIntro" class="welcome-intro"></p>
+        <p id="welcomeTime" class="time-note"></p>
+      </div>
+      <article class="rules-card rules-card--welcome" aria-labelledby="welcomeRuleHeading">
+        <div class="section-kicker">SHIFT CARD / KEEP OPEN</div>
+        <h2 id="welcomeRuleHeading">야간 근무 수칙</h2>
+        <p id="welcomeRulesIntro" class="rules-card__intro"></p>
+        <ol id="welcomeRules"></ol>
+        <p id="welcomeEndNote" class="rules-card__ending"></p>
+      </article>
+      <div class="validation-block">
+        <p id="validationStatus" class="validation-status" role="status" aria-live="polite">콘텐츠 점검 중…</p>
+        <details id="validationDetails" class="validation-details" hidden>
+          <summary>점검 상세 보기</summary>
+          <ul id="validationIssues"></ul>
+        </details>
+      </div>
+      <button id="startButton" class="primary-button" type="button">
+        <span>근무 시작</span><span aria-hidden="true">→</span>
+      </button>
+    </section>
+
+    <section id="workPanel" class="work-panel" aria-label="야간 근무" hidden>
+      <div class="shift-progress" aria-label="호출 진행">
+        <div>
+          <span class="section-kicker">CALL PROGRESS</span>
+          <strong id="progressCount" class="progress-count">01 / 05</strong>
+        </div>
+        <div id="progressSteps" class="progress-steps" aria-hidden="true"></div>
+      </div>
+      <div class="work-layout">
+        <section class="monitor-column" aria-label="관제 자료">
+          <nav id="viewTabs" class="view-tabs" aria-label="자료 종류"></nav>
+          <section id="evidencePanel" class="evidence-panel" role="tabpanel" aria-labelledby="tab-VIEW-CCTV">
+            <div id="cameraTabs" class="camera-tabs" hidden></div>
+            <div id="cctvPanel" class="cctv-panel">
+              <div class="scene-shell">
+                <div id="sceneStage" class="scene-stage" role="img" aria-label="CCTV 영상"></div>
+                <div class="scene-overlay-frame" aria-hidden="true">
+                  <span class="camera-rec"><i></i> REC</span>
+                  <span class="camera-coordinate">STATION 04 / CLOSED</span>
+                </div>
+                <div class="scene-time"><span>LOCAL FEED</span><strong id="cameraTimestamp">00:17</strong></div>
+              </div>
+              <div id="sceneCaption" class="scene-caption"></div>
+            </div>
+            <div class="evidence-content-wrap">
+              <div class="evidence-heading-row">
+                <div>
+                  <p class="section-kicker">AVAILABLE BEFORE RESPONSE</p>
+                  <h2 id="evidenceHeading">선택 전에 확인할 자료</h2>
+                </div>
+                <span class="evidence-count-note">자료 시간은 서사 시각</span>
+              </div>
+              <div id="evidenceContent" class="evidence-content" aria-live="polite"></div>
+            </div>
+          </section>
+        </section>
+
+        <section class="dispatch-column" aria-labelledby="incidentTitle">
+          <div class="call-card">
+            <div class="call-card__topline">
+              <p class="section-kicker">INCOMING / <span id="callerInfo">내선 204</span> · <span id="callTime">00:17</span></p>
+              <span id="callState" class="call-state-mark"><i aria-hidden="true"></i> 호출 확인</span>
+            </div>
+            <h2 id="incidentTitle" tabindex="-1" aria-live="polite">닫힌 출구</h2>
+            <p id="callQuote" class="call-quote"></p>
+            <p id="callContext" class="call-context"></p>
+          </div>
+          <section class="response-card" aria-labelledby="responseHeading">
+            <div class="response-heading-row">
+              <div>
+                <p class="section-kicker">DISPATCH DECISION</p>
+                <h3 id="responseHeading">업무 처분 선택</h3>
+              </div>
+              <span class="choice-count">3 OPTIONS</span>
+            </div>
+            <p class="response-hint">방송 문구 또는 방송 보류 시 처분을 확인하세요.</p>
+            <div id="responseList" class="response-list"></div>
+            <section id="resultPanel" class="result-panel" aria-live="polite" hidden>
+              <p id="resultLabel" class="result-label" tabindex="-1"></p>
+              <p id="resultChoice" class="result-choice"></p>
+              <p id="resultAction" class="result-action"></p>
+              <p id="resultCopy" class="result-copy"></p>
+            </section>
+            <button id="nextButton" class="next-button" type="button" hidden></button>
+          </section>
+        </section>
+      </div>
+    </section>
+
+    <section id="endingPanel" class="ending-panel" aria-labelledby="endingTitle" hidden>
+      <div class="ending-heading">
+        <p class="eyebrow">SHIFT RECORD / 01:00</p>
+        <h1 id="endingTitle" tabindex="-1" aria-live="polite">근무 종료 기록</h1>
+        <p id="endingCopy" class="ending-copy"></p>
+      </div>
+      <div class="ending-metrics" aria-label="최종 근무 수치">
+        <article><span>기록 신뢰도</span><strong id="endingRecordTrust">0 / 5</strong></article>
+        <article><span>방송실 잔향</span><strong id="endingEcho">0 / 4</strong></article>
+        <article><span>근무 판정</span><strong id="endingVerdict">보류</strong></article>
+      </div>
+      <section class="ending-log-section" aria-labelledby="endingLogHeading">
+        <div class="section-kicker">CHOICE HISTORY / STORY TIME ONLY</div>
+        <h2 id="endingLogHeading">호출별 기록</h2>
+        <div id="endingLog" class="ending-log"></div>
+      </section>
+      <button id="restartButton" class="primary-button restart-button" type="button">
+        <span>처음부터 다시 근무</span><span aria-hidden="true">↺</span>
+      </button>
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    <span>STATION 04 · LOCAL ARCHIVE</span>
+    <span>모든 자료는 이 근무의 허구 기록입니다.</span>
+  </footer>
+
+  <script src="../game-data/manifest.js"></script>
+  <script src="assets/asset-manifest.js"></script>
+  <script src="runtime/content-loader.js"></script>
+  <script src="runtime/ending-resolver.js"></script>
+  <script src="runtime/session.js"></script>
+  <script src="runtime/evaluation.js"></script>
+  <script src="runtime/content-validator.js"></script>
+  <script src="renderers/station-scene-renderer.js"></script>
+  <script src="renderers/evidence-renderer.js"></script>
+  <script src="renderers/feedback-renderer.js"></script>
+  <script src="ui/monitor-tabs.js"></script>
+  <script src="ui/call-panel.js"></script>
+  <script src="ui/response-panel.js"></script>
+  <script src="ui/shift-summary.js"></script>
+  <script src="runtime/incident-flow.js"></script>
+  <script src="runtime/boot.js"></script>
+</body>
+</html>

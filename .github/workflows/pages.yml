@@ -1,0 +1,52 @@
+name: Publish GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Prepare site files
+        run: |
+          mkdir -p _site/game-design/assets
+          cp -R web-game _site/web-game
+          cp -R game-data _site/game-data
+          cp -R game-design/assets/imagegen _site/game-design/assets/imagegen
+          cat > _site/index.html <<'EOF'
+          <!doctype html>
+          <html lang="ko">
+          <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <meta http-equiv="refresh" content="0; url=./web-game/">
+            <title>다음 역은 없습니다</title>
+          </head>
+          <body>
+            <p><a href="./web-game/">다음 역은 없습니다 플레이하기</a></p>
+          </body>
+          </html>
+          EOF
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

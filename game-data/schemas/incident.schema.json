@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "incident.schema.json",
+  "title": "다음 역은 없습니다 · 호출 데이터",
+  "type": "object",
+  "required": ["incidentId", "schemaVersion", "timeLabel", "titleKey", "caller", "primaryFeedId", "evidenceIds", "choices"],
+  "properties": {
+    "incidentId": { "type": "string", "pattern": "^CALL-[A-Z0-9-]+$" },
+    "schemaVersion": { "const": 1 },
+    "timeLabel": { "type": "string", "pattern": "^[0-9]{2}:[0-9]{2}$" },
+    "titleKey": { "type": "string", "minLength": 1 },
+    "primaryFeedId": { "type": "string", "minLength": 1 },
+    "caller": {
+      "type": "object",
+      "required": ["type", "displayKey", "messageKey", "contextKey"],
+      "properties": {
+        "type": { "type": "string", "minLength": 1 },
+        "displayKey": { "type": "string", "minLength": 1 },
+        "messageKey": { "type": "string", "minLength": 1 },
+        "contextKey": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "evidenceIds": {
+      "type": "array",
+      "minItems": 2,
+      "uniqueItems": true,
+      "items": { "type": "string", "pattern": "^EVID-[A-Z0-9-]+$" }
+    },
+    "enterSceneStates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["componentId", "state"],
+        "properties": {
+          "componentId": { "type": "string" },
+          "state": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "choices": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "required": ["choiceId", "channel", "textKey", "judgement", "recordTrustDelta", "echoDelta", "effectIds", "feedbackKey", "logKey"],
+        "properties": {
+          "choiceId": { "type": "string", "pattern": "^CH-[A-Z0-9-]+$" },
+          "channel": { "enum": ["broadcast", "withhold"] },
+          "textKey": { "type": "string", "minLength": 1 },
+          "judgement": { "enum": ["matched", "unmatched"] },
+          "recordTrustDelta": { "type": "integer", "minimum": 0, "maximum": 1 },
+          "echoDelta": { "type": "integer", "minimum": 0, "maximum": 2 },
+          "effectIds": { "type": "array", "items": { "type": "string" } },
+          "feedbackKey": { "type": "string", "minLength": 1 },
+          "logKey": { "type": "string", "minLength": 1 }
+        },
+        "allOf": [
+          { "if": { "properties": { "judgement": { "const": "matched" } }, "required": ["judgement"] }, "then": { "properties": { "recordTrustDelta": { "const": 1 } } } },
+          { "if": { "properties": { "judgement": { "const": "unmatched" } }, "required": ["judgement"] }, "then": { "properties": { "recordTrustDelta": { "const": 0 } } } }
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "scene.schema.json",
+  "title": "다음 역은 없습니다 · 장면 템플릿",
+  "type": "object",
+  "required": ["schemaVersion", "sceneTemplateId", "stationId", "width", "height", "components"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "sceneTemplateId": { "type": "string", "pattern": "^SCENE-TEMPLATE-[A-Z0-9-]+$" },
+    "stationId": { "type": "string", "pattern": "^STATION-[A-Z0-9-]+$" },
+    "width": { "const": 720 },
+    "height": { "const": 405 },
+    "components": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["componentId", "sceneId", "renderKind", "layer", "position", "initialState", "states"],
+        "properties": {
+          "componentId": { "type": "string", "pattern": "^C[0-9]{2}\\.[a-zA-Z][a-zA-Z0-9]*$" },
+          "sceneId": { "type": "string", "pattern": "^SCENE-[A-Z0-9-]+$" },
+          "renderKind": { "enum": ["shutter", "light", "reveal", "indicator", "display", "power", "reflection", "trace", "signal", "speaker", "actor", "mask", "door"] },
+          "assetId": { "type": ["string", "null"], "pattern": "^ASSET-[A-Z0-9-]+$" },
+          "layer": { "type": "integer", "minimum": 0 },
+          "position": {
+            "type": "object",
+            "required": ["x", "y", "width", "height"],
+            "properties": {
+              "x": { "type": "number", "minimum": 0, "maximum": 720 },
+              "y": { "type": "number", "minimum": 0, "maximum": 405 },
+              "width": { "type": "number", "exclusiveMinimum": 0, "maximum": 720 },
+              "height": { "type": "number", "exclusiveMinimum": 0, "maximum": 405 }
+            },
+            "additionalProperties": false
+          },
+          "initialState": { "type": "string", "minLength": 1 },
+          "states": {
+            "type": "object",
+            "minProperties": 1,
+            "additionalProperties": {
+              "type": "object",
+              "required": ["captionKey"],
+              "properties": { "captionKey": { "type": ["string", "null"] } },
+              "additionalProperties": false
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

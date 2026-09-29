@@ -1,0 +1,38 @@
+(function (root) {
+  "use strict";
+
+  var components = [
+    { componentId: "C01.shutter", sceneId: "SCENE-EXIT-02", renderKind: "shutter", assetId: "ASSET-PROP-EXIT-SHUTTER", layer: 20, position: { x: 274, y: 93, width: 172, height: 142 }, initialState: "closed", states: { closed: { captionKey: "scene.shutter.closed" }, open: { captionKey: "scene.shutter.open" } } },
+    { componentId: "C01.lockLight", sceneId: "SCENE-EXIT-02", renderKind: "light", assetId: null, layer: 24, position: { x: 441, y: 222, width: 14, height: 14 }, initialState: "unsteady", states: { unsteady: { captionKey: "scene.lockLight.unsteady" }, steady: { captionKey: "scene.lockLight.steady" }, off: { captionKey: "scene.lockLight.off" } } },
+    { componentId: "C01.exterior", sceneId: "SCENE-EXIT-02", renderKind: "reveal", assetId: null, layer: 10, position: { x: 287, y: 100, width: 146, height: 116 }, initialState: "absent", states: { absent: { captionKey: "scene.exterior.absent" }, unreal: { captionKey: "scene.exterior.unreal" } } },
+    { componentId: "C01.pendingCall", sceneId: "SCENE-EXIT-02", renderKind: "indicator", assetId: null, layer: 31, position: { x: 559, y: 70, width: 78, height: 24 }, initialState: "clear", states: { clear: { captionKey: "scene.call204.clear" }, pending: { captionKey: "scene.call204.pending" } } },
+    { componentId: "C01.destination", sceneId: "SCENE-EXIT-02", renderKind: "display", assetId: null, layer: 30, position: { x: 52, y: 76, width: 152, height: 44 }, initialState: "blank", states: { blank: { captionKey: "scene.destination.blank" }, fixedLine: { captionKey: "scene.destination.fixedLine" }, shiftNumber: { captionKey: "scene.destination.shiftNumber" } } },
+    { componentId: "C01.consoleCall", sceneId: "SCENE-EXIT-02", renderKind: "indicator", assetId: null, layer: 30, position: { x: 508, y: 280, width: 74, height: 22 }, initialState: "hidden", states: { hidden: { captionKey: "scene.consoleCall.hidden" }, pending: { captionKey: "scene.consoleCall.pending" } } },
+    { componentId: "C01.roomPower", sceneId: "SCENE-EXIT-02", renderKind: "power", assetId: null, layer: 32, position: { x: 616, y: 294, width: 24, height: 26 }, initialState: "on", states: { on: { captionKey: "scene.roomPower.on" }, off: { captionKey: "scene.roomPower.off" } } },
+    { componentId: "C01.reflection", sceneId: "SCENE-EXIT-02", renderKind: "reflection", assetId: null, layer: 33, position: { x: 535, y: 179, width: 112, height: 73 }, initialState: "absent", states: { absent: { captionKey: "scene.reflection.absent" }, present: { captionKey: "scene.reflection.present" } } },
+    { componentId: "C01.micEcho", sceneId: "SCENE-EXIT-02", renderKind: "trace", assetId: null, layer: 34, position: { x: 332, y: 254, width: 58, height: 28 }, initialState: "absent", states: { absent: { captionKey: null }, present: { captionKey: "scene.micEcho.present" } } },
+    { componentId: "C02.tunnelLights", sceneId: "SCENE-PLATFORM-03", renderKind: "signal", assetId: null, layer: 20, position: { x: 313, y: 88, width: 88, height: 62 }, initialState: "off", states: { off: { captionKey: "scene.tunnelLights.off" }, twin: { captionKey: "scene.tunnelLights.twin" } } },
+    { componentId: "C02.rail", sceneId: "SCENE-PLATFORM-03", renderKind: "trace", assetId: null, layer: 12, position: { x: 74, y: 270, width: 344, height: 34 }, initialState: "dry", states: { dry: { captionKey: "scene.rail.dry" }, wet: { captionKey: "scene.rail.wet" } } },
+    { componentId: "C02.handprint", sceneId: "SCENE-PLATFORM-03", renderKind: "trace", assetId: null, layer: 21, position: { x: 615, y: 98, width: 34, height: 42 }, initialState: "absent", states: { absent: { captionKey: "scene.handprint.none" }, visible: { captionKey: "scene.handprint.visible" } } },
+    { componentId: "C02.cancelDisplay", sceneId: "SCENE-PLATFORM-03", renderKind: "display", assetId: null, layer: 26, position: { x: 520, y: 42, width: 145, height: 38 }, initialState: "cancelled", states: { cancelled: { captionKey: "scene.cancelDisplay.cancelled" }, confirmed: { captionKey: "scene.cancelDisplay.confirmed" }, blank: { captionKey: "scene.cancelDisplay.blank" } } },
+    { componentId: "C02.phoneVibration", sceneId: "SCENE-PLATFORM-03", renderKind: "speaker", assetId: null, layer: 28, position: { x: 62, y: 300, width: 28, height: 36 }, initialState: "active", states: { active: { captionKey: "scene.phoneVibration.active" }, stopped: { captionKey: "scene.phoneVibration.stopped" } } },
+    { componentId: "C02.person", sceneId: "SCENE-PLATFORM-03", renderKind: "actor", assetId: "ASSET-CHAR-PASSENGER", layer: 25, position: { x: 424, y: 164, width: 70, height: 158 }, initialState: "absent", states: { absent: { captionKey: "scene.person.absent" }, near: { captionKey: "scene.person.near" }, withdrawn: { captionKey: "scene.person.withdrawn" } } },
+    { componentId: "C02.platformLights", sceneId: "SCENE-PLATFORM-03", renderKind: "light", assetId: null, layer: 17, position: { x: 453, y: 68, width: 46, height: 12 }, initialState: "stable", states: { stable: { captionKey: "scene.platformLights.stable" }, flickering: { captionKey: "scene.platformLights.flickering" }, off: { captionKey: "scene.platformLights.off" } } },
+    { componentId: "C02.additionalPerson", sceneId: "SCENE-PLATFORM-03", renderKind: "actor", assetId: "ASSET-CHAR-PASSENGER", layer: 26, position: { x: 520, y: 174, width: 58, height: 138 }, initialState: "hidden", states: { hidden: { captionKey: "scene.additionalPerson.hidden" }, visible: { captionKey: "scene.additionalPerson.visible" } } },
+    { componentId: "C02.face", sceneId: "SCENE-PLATFORM-03", renderKind: "mask", assetId: null, layer: 27, position: { x: 444, y: 177, width: 26, height: 24 }, initialState: "normal", states: { normal: { captionKey: "scene.face.normal" }, erased: { captionKey: "scene.face.erased" } } },
+    { componentId: "C03.staffDoor", sceneId: "SCENE-STAFF-HALL", renderKind: "door", assetId: "ASSET-PROP-STAFF-DOOR", layer: 21, position: { x: 309, y: 42, width: 100, height: 111 }, initialState: "locked", states: { locked: { captionKey: "scene.staffDoor.locked" }, ajar: { captionKey: "scene.staffDoor.ajar" } } },
+    { componentId: "C03.authority", sceneId: "SCENE-STAFF-HALL", renderKind: "indicator", assetId: null, layer: 27, position: { x: 517, y: 81, width: 56, height: 22 }, initialState: "none", states: { none: { captionKey: "scene.authority.none" }, logged: { captionKey: "scene.authority.logged" } } },
+    { componentId: "C03.staffSpeaker", sceneId: "SCENE-STAFF-HALL", renderKind: "speaker", assetId: null, layer: 28, position: { x: 90, y: 88, width: 35, height: 45 }, initialState: "idle", states: { idle: { captionKey: "scene.staffSpeaker.idle" }, answering: { captionKey: "scene.staffSpeaker.answering" } } },
+    { componentId: "C03.staffFigure", sceneId: "SCENE-STAFF-HALL", renderKind: "actor", assetId: "ASSET-CHAR-STAFF-HALL", layer: 30, position: { x: 315, y: 118, width: 90, height: 192 }, initialState: "hidden", states: { hidden: { captionKey: "scene.staffFigure.hidden" }, visible: { captionKey: "scene.staffFigure.visible" } } },
+    { componentId: "C03.breath", sceneId: "SCENE-STAFF-HALL", renderKind: "trace", assetId: null, layer: 29, position: { x: 317, y: 291, width: 78, height: 29 }, initialState: "none", states: { none: { captionKey: "scene.breath.none" }, short: { captionKey: "scene.breath.short" } } }
+  ];
+
+  root.NextStationData.register("scenes", "SCENE-TEMPLATE-STATION-04", {
+    schemaVersion: 1,
+    sceneTemplateId: "SCENE-TEMPLATE-STATION-04",
+    stationId: "STATION-04",
+    width: 720,
+    height: 405,
+    components: components
+  });
+}(window));
